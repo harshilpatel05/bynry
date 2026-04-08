@@ -12,9 +12,7 @@ const supabase = createClient(
 const app = express();
 app.use(express.json());
 
-function isUuid(value) {
-  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
-}
+
 
 app.get('/api/companies/:company_id/alerts/low-stock', async (req, res) => {
   const { company_id } = req.params;
@@ -23,11 +21,7 @@ app.get('/api/companies/:company_id/alerts/low-stock', async (req, res) => {
   const standardThreshold = Number(req.query.standard_threshold ?? 20);
   const bundleThreshold = Number(req.query.bundle_threshold ?? 10);
 
-  if (!isUuid(company_id)) {
-    return res.status(400).json({
-      error: 'Invalid company_id. Expected UUID.'
-    });
-  }
+ 
 
   if (!Number.isInteger(recentDays) || recentDays <= 0) {
     return res.status(400).json({
